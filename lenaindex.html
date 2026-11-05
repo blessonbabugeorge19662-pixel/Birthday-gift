@@ -1,0 +1,281 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Lena! 🎂</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    font-family: 'Trebuchet MS', sans-serif;
+    background: linear-gradient(135deg, #ffd1dc, #e7c6ff, #ffc8dd);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #74345c;
+    text-align: center;
+    padding: 20px;
+}
+
+canvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.card {
+    width: 100%;
+    max-width: 480px;
+    padding: 38px 25px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.78);
+    box-shadow: 0 15px 50px rgba(150, 60, 110, 0.2);
+    backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 2;
+    animation: appear 1s ease;
+}
+
+@keyframes appear {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.small {
+    font-size: 14px;
+    letter-spacing: 4px;
+    color: #bd6296;
+    font-weight: bold;
+}
+
+h1 {
+    font-size: clamp(35px, 9vw, 52px);
+    margin: 15px 0;
+    color: #d63384;
+    text-shadow: 2px 3px 10px #ffc1dc;
+}
+
+.name {
+    color: #9b4dca;
+    display: block;
+    font-size: 1.15em;
+}
+
+.cake {
+    font-size: 90px;
+    margin: 18px 0;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+}
+
+.message {
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 15px 0 25px;
+    color: #76516b;
+}
+
+button {
+    border: none;
+    padding: 15px 28px;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ec4899, #a855f7);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 7px 20px #d98bc5;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.06);
+}
+
+#surprise {
+    display: none;
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 20px;
+    background: #fff0f7;
+    animation: appear 0.8s ease;
+    line-height: 1.8;
+}
+
+.heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 22px;
+    opacity: 0.6;
+    animation: floatUp 8s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    to {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.footer {
+    margin-top: 25px;
+    font-size: 12px;
+    color: #b46c9b;
+}
+
+@media(max-width: 400px) {
+    .card { padding: 30px 18px; }
+    .cake { font-size: 75px; }
+    .message { font-size: 14px; }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="card">
+
+    <div class="small">A SPECIAL DAY FOR SOMEONE SPECIAL</div>
+
+    <h1>
+        Happy Birthday
+        <span class="name">Lena! 💗</span>
+    </h1>
+
+    <div class="cake">🎂</div>
+
+    <p class="message">
+        Wishing you a day filled with happiness,
+        endless laughter, beautiful memories
+        and all the little things that make you smile.
+
+        <br><br>
+
+        May this new chapter bring you
+        success, love, adventures and
+        everything your heart wishes for.
+
+        <br><br>
+
+        Keep smiling and keep shining! ✨
+    </p>
+
+    <button onclick="showSurprise()">
+        🎁 Open Your Surprise
+    </button>
+
+    <div id="surprise">
+        <h2>💖 Dear Lena 💖</h2>
+        <p>
+            You deserve all the happiness in the world.
+            May your dreams come true and may every
+            day ahead be more beautiful than the last.
+        </p>
+        <h2>Have the best birthday ever! 🥳</h2>
+        <div style="font-size:35px; margin-top:10px">
+            🌸 💕 🎀 ✨
+        </div>
+    </div>
+
+    <div class="footer">
+        MADE WITH ❤️ JUST FOR LENA
+    </div>
+
+</div>
+
+<script>
+// Floating hearts
+const hearts = ["💗", "💕", "💖", "🌸", "✨"];
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (5 + Math.random() * 5) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 10000);
+}
+
+setInterval(createHeart, 500);
+
+// Confetti animation
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+
+let pieces = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function launchConfetti() {
+    for (let i = 0; i < 160; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: -Math.random() * canvas.height,
+            size: Math.random() * 8 + 4,
+            speed: Math.random() * 4 + 2,
+            angle: Math.random() * 360,
+            spin: Math.random() * 8 - 4,
+            color: ["#ff4d94", "#a855f7", "#ffd166",
+                    "#ff85a1", "#7c3aed"][Math.floor(Math.random() * 5)]
+        });
+    }
+}
+
+function animateConfetti() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    pieces.forEach((p) => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle * Math.PI / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+
+        p.y += p.speed;
+        p.x += Math.sin(p.angle) * 1.5;
+        p.angle += p.spin;
+    });
+
+    pieces = pieces.filter(p => p.y < canvas.height + 20);
+    requestAnimationFrame(animateConfetti);
+}
+
+animateConfetti();
+launchConfetti();
+
+// Birthday surprise
+function showSurprise() {
+    document.getElementById("surprise").style.display = "block";
+    launchConfetti();
+}
+</script>
+
+</body>
+</html>
